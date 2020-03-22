@@ -1,102 +1,89 @@
 <!doctype html>
 <html lang="en">
-  <head>
+    <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
-     <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-        <title>RowdyHacks Geo</title>
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <style>
-            html, body, #viewDiv {
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 100%;
-            }
-        </style>
-        <link rel="stylesheet" href="https://js.arcgis.com/4.14/esri/css/main.css">
+    <style>
+        html, body, #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.14/esri/css/main.css">  
+    <title>RowdyHacks Geo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>RowdyHacks Geo</title>
         
-        
-        
-        <script src="https://js.arcgis.com/4.14/"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-      
-        <script>
-            require([
-            "esri/Map",
-            "esri/views/MapView",
-            "esri/Graphic"
-            ], function(Map, MapView, Graphic) {
-
-
-            var map = new Map({
-            basemap: "topo-vector"
-            });
-
-
-            var markerSymbol = {
-            type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-            color: [226, 119, 40],
-            outline: {
-            // autocasts as new SimpleLineSymbol()
-            color: [255, 255, 255],
-            width: 1
-            }
-            };
-
-            var view = new MapView({
-            container: "viewDiv",
-            map: map,
-            center: [-80, 35],
-            zoom: 3
-            });
-
-
-
-            $(document).ready(function() {
-            $.ajax({
-            type: "GET",
-            url: "data.csv",
-            dataType: "text",
-            success: function(data) {
-            var entries = data.split('\n');
-            for(var i = 0; i < entries.length-1; i++) {
-                //console.log(entries[i]);
-                coords = entries[i].split(',')
-                //console.log(coords);
-                 var popupTemplate = {
-                    title: coords[0],
-                    content: ""
-                  };
-                var point = {type: "point", longitude: coords[2],latitude: coords[1]};
-                var pointGraphic = new Graphic({geometry: point, symbol: markerSymbol, popupTemplate: popupTemplate});
-                view.graphics.addMany([pointGraphic]);
-            }
-            }
-            });
-            });
-            });
-        </script>
   </head>
   <body>
     <!-- As a heading -->
     <nav class="navbar navbar-dark bg-dark">
       <span class="navbar-brand mb-0 h1">RowdyHacks Geo</span>
     </nav>
-      
      <div id="viewDiv"></div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://js.arcgis.com/4.14/"></script>
+    <script>
+        require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/Graphic"
+        ], function(Map, MapView, Graphic) {
+
+        var map = new Map({
+            basemap: "topo-vector"
+        });
+
+
+        var markerSymbol = {
+            type: "simple-marker",
+            color: [226, 119, 40],
+            outline: {color: [255, 255, 255],width: 1}
+        };
+
+        var view = new MapView({
+            container: "viewDiv",
+            map: map,
+            center: [-98.6500523, 37.850033],
+            zoom: 5
+        });
+
+
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "data.csv",
+                dataType: "text",
+                success: function(data) {
+                    var entries = data.split('\n');
+                    for(var i = 0; i < entries.length-1; i++) {
+                        //console.log(entries[i]);
+                        coords = entries[i].split(',')
+                        //console.log(coords);
+                         var popupTemplate = {
+                            title: coords[0],
+                            content: ""
+                          };
+                        var point = {type: "point", longitude: coords[2],latitude: coords[1]};
+                        var pointGraphic = new Graphic({geometry: point, symbol: markerSymbol, popupTemplate: popupTemplate});
+                        view.graphics.addMany([pointGraphic]);
+                    }
+                }
+                });
+            });
+        });
+    </script>
   </body>
 </html>
